@@ -1,7 +1,34 @@
 import React, { Component } from "react";
 
 export default class SignUpPage extends Component {
+  state = {
+    username: "",
+    email: "",
+    password: "",
+    passwordRepeat: "",
+  };
+
+  onChangePassword = (event) => {
+    const currentValue = event.target.value;
+    this.setState({
+      password: currentValue,
+    });
+  };
+
+  onChangePasswordRepeat = (event) => {
+    const currentValue = event.target.value;
+    this.setState({
+      passwordRepeat: currentValue,
+    });
+  };
+
   render() {
+    let disabled = true;
+    const { password, passwordRepeat } = this.state;
+
+    if (password && passwordRepeat) {
+      disabled = password !== passwordRepeat;
+    }
     return (
       <div className="col=lg-6 offset-lg-3 col-md-8 offset-md-2">
         <form className="card mt-5">
@@ -25,7 +52,12 @@ export default class SignUpPage extends Component {
               <label htmlFor="password" className="form-label">
                 Password
               </label>
-              <input type="password" id="password" className="form-control" />
+              <input
+                type="password"
+                id="password"
+                className="form-control"
+                onChange={this.onChangePassword}
+              />
             </div>
             <div className="mb-3">
               <label htmlFor="passwordRepeat" className="form-label">
@@ -35,10 +67,13 @@ export default class SignUpPage extends Component {
                 type="password"
                 id="passwordRepeat"
                 className="form-control"
+                onChange={this.onChangePasswordRepeat}
               />
             </div>
           </div>
-          <button className="btn btn-primary">Sign Up</button>
+          <button className="btn btn-primary" disabled={disabled}>
+            Sign Up
+          </button>
         </form>
       </div>
     );
